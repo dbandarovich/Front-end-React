@@ -1,0 +1,20 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700;800;900&family=Raleway:wght@400;500;600&family=Roboto&display=swap");
+@import "./variables";
+
+html,
+body {
+  font-family: Raleway, sans-serif;
+  font-size: 16px;
+  line-height: 19px;
+  font-weight: 400;
+  background-color: $background;
+  color: $text-color;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: Montserrat, sans-serif;
+}
