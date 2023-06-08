@@ -2,6 +2,7 @@ import React from "react";
 import styles from './AuthPage.module.scss'
 import leftImage from '../../assets/authimage.png'
 import arrow from '../../assets/arrow.png'
+import {AuthForm} from "../../components/AuthForm/AuthForm";
 
 export const AuthPage = () => {
 
@@ -15,6 +16,7 @@ export const AuthPage = () => {
                 <div className={styles.formAuth}>
                     <h1>Добро пожаловать <br/>
                         в <span>FamilyBudget</span></h1>
+                    <AuthForm />
                 </div>
             </div>
 

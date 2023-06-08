@@ -29,21 +29,22 @@
 }
 .rightAuth img {
   position: absolute;
-  padding-top: 30px;
+  padding-top: 35px;
   padding-left: 45px;
 }
 h1{
   font-style: normal;
   font-weight: 700;
-  font-size: calc(26px + .01375*(100vw - 320px));
-  line-height: 50px;
+  font-size: 48px;
+  line-height: 61px;
   color: $darkColor;
+  padding-bottom: 32px;
 }
 h1 span {
   color: $greenColor
 }
 .containerForm {
-  padding: 110px 112px 0 80px;
+  padding: 120px 176px 0 80px;
 }
 .formAuth {
   background: #FFFFFF;
@@ -52,6 +53,13 @@ h1 span {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 50px 50px 60px;
+  padding: 32px;
   width: 100%;
+}
+
+@media (max-width: 1920px) {
+  h1{
+    font-size: calc(26px + .01375*(100vw - 320px));
+    line-height: 50px;
+  }
 }
