@@ -9,30 +9,29 @@
 .leftImage {
   display: flex;
   justify-content: center;
-  padding-top: 100px;
+  align-items: center;
   width: 50%;
   height: 100vh;
-  background: #E2FFFA;
+  background: #e2fffa;
   border-radius: 0px 64px 64px 0px;
 }
 .leftImage img {
   display: block;
   max-width: 90%;
-  height:auto;
+  height: auto;
   object-fit: contain;
 }
 .rightAuth {
   display: flex;
   flex-direction: column;
   width: 50vw;
-
 }
-.rightAuth img {
+.arrow {
   position: absolute;
   padding-top: 35px;
   padding-left: 45px;
 }
-h1{
+h1 {
   font-style: normal;
   font-weight: 700;
   font-size: 48px;
@@ -41,14 +40,15 @@ h1{
   padding-bottom: 32px;
 }
 h1 span {
-  color: $greenColor
+  color: $greenColor;
 }
 .containerForm {
   padding: 120px 176px 0 80px;
 }
 .formAuth {
-  background: #FFFFFF;
-  box-shadow: -2px -2px 16px rgba(39, 222, 191, 0.06), 2px 2px 16px rgba(39, 222, 191, 0.06);
+  background: #ffffff;
+  box-shadow: -2px -2px 16px rgba(39, 222, 191, 0.06),
+    2px 2px 16px rgba(39, 222, 191, 0.06);
   border-radius: 20px;
   display: flex;
   flex-direction: column;
@@ -57,9 +57,16 @@ h1 span {
   width: 100%;
 }
 
-@media (max-width: 1920px) {
-  h1{
-    font-size: calc(26px + .01375*(100vw - 320px));
-    line-height: 50px;
+@media (max-width: 1919px) {
+  h1 {
+    font-size: 36px;
+    line-height: 47px;
+    padding-bottom: 20px;
+  }
+  .leftImage img {
+    width: 570px;
+    height: 516px;
+  }
+  .leftImage {
   }
 }
