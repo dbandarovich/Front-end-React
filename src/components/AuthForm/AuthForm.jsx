@@ -1,40 +1,68 @@
 import React from 'react';
-import {ErrorMessage, Field, Form, Formik} from 'formik';
 import "./styles.css";
-export const AuthForm = () => (
-    <div>
-        <h1>Any place in your app!</h1>
-        <Formik
-            initialValues={{ email: '', password: '' }}
-            validate={values => {
-                const errors = {};
-                if (!values.email) {
-                    errors.email = 'Required';
-                } else if (
-                    !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
-                ) {
-                    errors.email = 'Invalid email address';
-                }
-                return errors;
-            }}
-            onSubmit={(values, { setSubmitting }) => {
-                setTimeout(() => {
-                    alert(JSON.stringify(values, null, 2));
-                    setSubmitting(false);
-                }, 400);
-            }}
-        >
-            {({ isSubmitting }) => (
-                <Form>
-                    <Field type="email" name="email" />
-                    <ErrorMessage name="email" component="div" />
-                    <Field type="password" name="password" />
-                    <ErrorMessage name="password" component="div" />
-                    <button type="submit" disabled={isSubmitting}>
-                        Submit
-                    </button>
-                </Form>
-            )}
-        </Formik>
-    </div>
-);
+import { useFormik } from 'formik';
+
+const validate = values => {
+    const errors = {};
+
+
+
+    if (!values.email) {
+        errors.email = 'Required';
+    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+        errors.email = 'Invalid email address';
+    }
+    if (!values.password) {
+        errors.password = 'Required';
+    } else if (values.password.length > 15) {
+        errors.password = 'Must be 15 characters or less';
+    }
+
+    return errors;
+};
+
+export const AuthForm = () => {
+    const formik = useFormik({
+        initialValues: {
+            email: '',
+            password: ''
+        },
+        validate,
+        onSubmit: values => {
+            alert(JSON.stringify(values, null, 2));
+        },
+    });
+    return (
+        <form onSubmit={formik.handleSubmit}>
+
+
+            <label htmlFor="email">Электронная почта*</label>
+            <input
+                placeholder="Введите вашу почту"
+                id="email"
+                name="email"
+                type="email"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.email}
+            />
+            {formik.touched.email && formik.errors.email ? (
+                <div>{formik.errors.email}</div>
+            ) : null}
+            <label htmlFor="password">Пароль*</label>
+            <input
+                placeholder="Введите ваш пароль"
+                id="password"
+                name="password"
+                type="password"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.password}
+            />
+            {formik.touched.password && formik.errors.password ? (
+                <div>{formik.errors.password}</div>
+            ) : null}
+            <button type="submit">Войти</button>
+        </form>
+    );
+};
