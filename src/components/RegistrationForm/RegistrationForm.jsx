@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Field, Form, Formik } from "formik";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import * as yup from "yup";
 import { BsCheckLg } from "react-icons/bs";
 
@@ -10,17 +10,26 @@ import styles from "./RegistrationForm.module.scss";
 
 import { ArrowDown } from "../../icons";
 import { Button, PasswordField } from "../../components";
+import { setAuth } from "../../redux/reducers/AuthReducer";
 
 const FormSchema = yup.object().shape({
   password: yup
     .string()
-    .min(6, "Минимальная длинна 6 символов")
-    .matches(/[0-9]/, "Пароль должен содержать цифру от 0 до 9")
-    .matches(/[a-z]/, "Пароль должен содержать буквы в нижнем регистре")
-    .matches(/[A-Z]/, "Пароль должен содержать буквы в верхнем регистре"),
+    .min(8, "Минимальная длинна 8 символов")
+    .matches(/(?=.*\d)/, "Пароль должен содержать цифру от 0 до 9")
+    .matches(/(?=.*[a-z])/, "Пароль должен содержать буквы в нижнем регистре")
+    .matches(/(?=.*[A-Z])/, "Пароль должен содержать буквы в верхнем регистре")
+    .matches(/(?=.*[@$!%*?&])/, "Пароль должен содержать хотя бы один символ")
+    .matches(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{5,16}$/,
+      "Пароль не должен содержать последовательность 5 цифр или букв"
+    )
+    .required("Обязательное поле"),
+
   confirmPassword: yup
     .string()
-    .oneOf([yup.ref("password"), null], "Пароли не совпадают"),
+    .oneOf([yup.ref("password"), null], "Пароли не совпадают")
+    .required("Обязательное поле"),
   email: yup
     .string()
     .matches(
@@ -34,6 +43,8 @@ export const RegistrationForm = ({ setIsOpenRegistration }) => {
   const dispatch = useDispatch();
   const [isChecked, setIsChecked] = useState(false);
   const registrationRef = useRef();
+  let status = useSelector((state) => state.registration.status);
+  console.log(status);
 
   useEffect(() => {
     let handler = (e) => {
@@ -55,7 +66,7 @@ export const RegistrationForm = ({ setIsOpenRegistration }) => {
           email: "",
           firstName: "",
           lastName: "",
-          currency: "(₽) RUB",
+          currency: "RUB",
           password: "",
           confirmPassword: "",
           userCheck: false,
@@ -63,6 +74,10 @@ export const RegistrationForm = ({ setIsOpenRegistration }) => {
         validationSchema={FormSchema}
         onSubmit={(values, { setSubmitting }) => {
           dispatch(fetchRegistration(values));
+          if (status === "resolved") {
+            dispatch(setAuth(values.email));
+            localStorage.email = values.email;
+          }
           setSubmitting(false);
         }}
       >
@@ -92,11 +107,11 @@ export const RegistrationForm = ({ setIsOpenRegistration }) => {
             <div>
               <label>Выбор валюты</label>
               <Field as="select" name="currency">
-                <option value="RUS-RUB">(₽) RUB</option>
-                <option value="BLR-BYN">(Br) BYN</option>
-                <option value="USA-USD">($) USD</option>
-                <option value="EU-EUR">(€) EUR</option>
-                <option value="KAZ-KZT">(₸) KZT</option>
+                <option value="RUB">(₽) RUB</option>
+                <option value="BYN">(Br) BYN</option>
+                <option value="USD">($) USD</option>
+                <option value="EUR">(€) EUR</option>
+                <option value="KZT">(₸) KZT</option>
               </Field>
               <ArrowDown className={styles.arrow} />
             </div>
