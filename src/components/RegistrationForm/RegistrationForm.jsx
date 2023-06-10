@@ -45,6 +45,7 @@ export const RegistrationForm = ({ setIsOpenRegistration }) => {
   const registrationRef = useRef();
   let status = useSelector((state) => state.registration.status);
   console.log(status);
+  console.log(status);
 
   useEffect(() => {
     let handler = (e) => {
