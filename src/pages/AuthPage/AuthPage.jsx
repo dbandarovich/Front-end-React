@@ -6,9 +6,13 @@ import leftImage from "../../assets/authimage.png";
 import arrow from "../../assets/arrow.png";
 
 import { AuthForm } from "../../components";
+import {useSelector} from "react-redux";
+import {Navigate} from "react-router-dom";
 
 export const AuthPage = () => {
-  return (
+    const isAuth = useSelector(state => state.auth.auth)
+    console.log(!!isAuth)
+  return !isAuth ? (
     <div className={styles.container}>
       <div className={styles.leftImage}>
         <img src={leftImage} />
@@ -25,5 +29,5 @@ export const AuthPage = () => {
         </div>
       </div>
     </div>
-  );
+  ) : (<Navigate to="/operations" />)
 };

@@ -1,23 +1,19 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { authApi } from "../api/api";
+import {createSlice} from "@reduxjs/toolkit";
 
 const initialState = {
-  token: {},
+  auth: null,
 };
 
-export const fetchAuth = createAsyncThunk("Auth/fetchAuth", async (values) => {
-  return authApi.authentication(values).then(console.log);
-});
 
 export const authSlice = createSlice({
   name: "auth",
   initialState,
-  reducers: {},
-  extraReducers: (builder) => {
-    builder.addCase(fetchAuth.fulfilled, (state, action) => {
-      console.log(action);
-    });
+  reducers: {
+    setAuth(state, action) {
+      state.auth = action.payload
+    }
   },
 });
+export const {setAuth} = authSlice.actions;
 
 export default authSlice.reducer;
