@@ -1,18 +1,19 @@
 import React from "react";
-import { ErrorMessage, Field, Form, Formik } from "formik";
-import { useDispatch } from "react-redux";
+import {ErrorMessage, Field, Form, Formik} from "formik";
+import {useDispatch} from "react-redux";
 
-import { fetchRegistration } from "../../redux/reducers/RegistrationReducer";
+import {fetchRegistration} from "../../redux/reducers/RegistrationReducer";
 
 import styles from "./RegistrationForm.module.scss";
 
-import { ArrowDown } from "../../icons";
-import { Button, PasswordField } from "../../components";
+import {ArrowDown} from "../../icons";
+import {Button, PasswordField} from "../../components";
 
-export const RegistrationForm = () => {
+export const RegistrationForm = ({setIsRegister}) => {
   const dispatch = useDispatch();
   return (
-    <div className={styles.wrapper}>
+
+    <div className={styles.wrapper} onClick={() => setIsRegister(false)}>
       <Formik
         initialValues={{
           email: "",
@@ -40,7 +41,7 @@ export const RegistrationForm = () => {
         }}
       >
         {({ isSubmitting }) => (
-          <Form className={styles.form}>
+          <Form className={styles.form} onClick={e => e.stopPropagation()}>
             <label>Электронная почта*</label>
             <Field type="email" name="email" placeholder="Введите вашу почту" />
             <ErrorMessage name="email" component="p" />
