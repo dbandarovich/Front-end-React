@@ -79,7 +79,7 @@ export const AuthForm = () => {
         )}
       </Formik>
       {isOpenRegistration && (
-        <RegistrationForm setIsOpenRegistration={setIsOpenRegistration()} />
+        <RegistrationForm setIsOpenRegistration={setIsOpenRegistration} />
       )}
     </div>
   );
