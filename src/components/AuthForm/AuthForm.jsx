@@ -3,8 +3,10 @@ import { ErrorMessage, Field, Form, Formik } from "formik";
 
 import "./styles.scss";
 
-import { Button } from "../Button";
-import { Facebook, Google } from "../../icons";
+import {Button} from "../Button";
+import {Facebook, Google, ShowPassword} from "../../icons";
+import {fetchAuth} from "../../redux/reducers/AuthReducer";
+import {useDispatch} from "react-redux";
 import { RegistrationForm } from "../RegistrationForm";
 import { PasswordField } from "../PasswordField";
 
@@ -26,11 +28,9 @@ export const AuthForm = () => {
           }
           return errors;
         }}
-        onSubmit={(values, { setSubmitting }) => {
-          setTimeout(() => {
-            alert(JSON.stringify(values, null, 2));
-            setSubmitting(false);
-          }, 400);
+        onSubmit={(values, {setSubmitting}) => {
+          dispatch(fetchAuth(values))
+          setSubmitting(false)
         }}
       >
         {({ isSubmitting }) => (
@@ -64,6 +64,7 @@ export const AuthForm = () => {
               <span onClick={() => setIsRegister(true)}>Зарегистрируйтесь</span>
             </div>
           </Form>
+
         )}
       </Formik>
       {isRegister && <RegistrationForm />}
