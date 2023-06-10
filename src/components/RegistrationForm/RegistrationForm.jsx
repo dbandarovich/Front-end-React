@@ -1,6 +1,7 @@
 import React from "react";
-import { ErrorMessage, Field, Form, Formik } from "formik";
+import { Field, Form, Formik } from "formik";
 import { useDispatch } from "react-redux";
+import * as yup from "yup";
 
 import { fetchRegistration } from "../../redux/reducers/RegistrationReducer";
 
@@ -9,8 +10,28 @@ import styles from "./RegistrationForm.module.scss";
 import { ArrowDown } from "../../icons";
 import { Button, PasswordField } from "../../components";
 
+const FormSchema = yup.object().shape({
+  password: yup
+    .string()
+    .min(6, "Минимальная длинна 6 символов")
+    .matches(/[0-9]/, "Пароль должен содержать цифру от 0 до 9")
+    .matches(/[a-z]/, "Пароль должен содержать буквы в нижнем регистре")
+    .matches(/[A-Z]/, "Пароль должен содержать буквы в верхнем регистре"),
+  confirmPassword: yup
+    .string()
+    .oneOf([yup.ref("password"), null], "Пароли не совпадают"),
+  email: yup
+    .string()
+    .matches(
+      /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+      "Неверный адрес электронной почты"
+    )
+    .required("Обязательное поле"),
+});
+
 export const RegistrationForm = () => {
   const dispatch = useDispatch();
+
   return (
     <div className={styles.wrapper}>
       <Formik
@@ -23,27 +44,17 @@ export const RegistrationForm = () => {
           confirmPassword: "",
           userCheck: false,
         }}
-        validate={(values) => {
-          const errors = {};
-          if (!values.email) {
-            errors.email = "Обязательное поле";
-          } else if (
-            !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
-          ) {
-            errors.email = "Неверный адрес";
-          }
-          return errors;
-        }}
+        validationSchema={FormSchema}
         onSubmit={(values, { setSubmitting }) => {
           dispatch(fetchRegistration(values));
           setSubmitting(false);
         }}
       >
-        {({ isSubmitting }) => (
+        {({ isSubmitting, errors }) => (
           <Form className={styles.form}>
             <label>Электронная почта*</label>
             <Field type="email" name="email" placeholder="Введите вашу почту" />
-            <ErrorMessage name="email" component="p" />
+            {errors.email && <p>{errors.email}</p>}
             <div className={styles.inputsWrapper}>
               <div>
                 <label>Имя</label>
@@ -65,17 +76,21 @@ export const RegistrationForm = () => {
             <div>
               <label>Выбор валюты</label>
               <Field as="select" name="currency">
-                <option value="(₽) RUB">(₽) RUB</option>
-                <option value="BYN">BYN</option>
+                <option value="RUS-RUB">(₽) RUB</option>
+                <option value="BLR-BYN">(Br) BYN</option>
+                <option value="USA-USD">($) USD</option>
+                <option value="EU-EUR">(€) EUR</option>
+                <option value="KAZ-KZT">(₸) KZT</option>
               </Field>
               <ArrowDown className={styles.arrow} />
             </div>
             <PasswordField label="Пароль" placeholder="Введите пароль" />
-            <ErrorMessage name="password" component="p" />
+            {errors.password && <p>{errors.password}</p>}
             <PasswordField
               name="confirmPassword"
               placeholder="Введите повторно пароль"
             />
+            {errors.confirmPassword && <p>{errors.confirmPassword}</p>}
             <label>Проверка</label>
             <Field className={styles.check} type="checkbox" name="userCheck" />
             <Button
