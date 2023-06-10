@@ -10,8 +10,7 @@ export const Button = ({ text, type, isSubmitting, className, children }) => {
       type={type}
       className={classNames(styles.button, className)}
     >
-      {children}
-      <div className={styles.text}>{text}</div>
+      {children}{text}
     </button>
   );
 };
