@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { Field, Form, Formik } from "formik";
 import { useDispatch } from "react-redux";
 import * as yup from "yup";
+import { BsCheckLg } from "react-icons/bs";
 
 import { fetchRegistration } from "../../redux/reducers/RegistrationReducer";
 
@@ -31,6 +32,7 @@ const FormSchema = yup.object().shape({
 
 export const RegistrationForm = () => {
   const dispatch = useDispatch();
+  const [isChecked, setIsChecked] = useState(false);
 
   return (
     <div className={styles.wrapper}>
@@ -92,9 +94,18 @@ export const RegistrationForm = () => {
             />
             {errors.confirmPassword && <p>{errors.confirmPassword}</p>}
             <label>Проверка</label>
-            <Field className={styles.check} type="checkbox" name="userCheck" />
+            <label className={styles.checkboxWrapper}>
+              <Field
+                onClick={() => setIsChecked((prevState) => !prevState)}
+                type="checkbox"
+                name="userCheck"
+              />{" "}
+              <span>Я не робот</span>
+              {isChecked && <BsCheckLg className={styles.checkIcon} />}
+            </label>
+
             <Button
-              className="main-form-button"
+              className={styles.registrButton}
               isSubmitting={isSubmitting}
               type="submit"
               text="Зарегистрироваться"
