@@ -2,15 +2,13 @@ import React, { useState } from "react";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import { useDispatch } from "react-redux";
 
-import {apiInstance} from "../../redux/api/api";
-import {setAuth} from "../../redux/reducers/AuthReducer";
+import { apiInstance } from "../../redux/api/api";
+import { setAuth } from "../../redux/reducers/AuthReducer";
 
 import "./styles.scss";
 
-import { Button } from "../Button";
+import { Button, RegistrationForm, PasswordField } from "../../components";
 import { Facebook, Google } from "../../icons";
-import { RegistrationForm } from "../RegistrationForm";
-import { PasswordField } from "../PasswordField";
 
 export const AuthForm = () => {
   const dispatch = useDispatch();
@@ -32,13 +30,15 @@ export const AuthForm = () => {
           return errors;
         }}
         onSubmit={(values, { setSubmitting }) => {
-          apiInstance.post(`authentication`, {
-            email: values.email,
-            password: values.password,
-          }).then((res) => {
-            dispatch(setAuth(res.data.token));
-            localStorage.token = res.data.token;
-          });
+          apiInstance
+            .post(`authentication`, {
+              email: values.email,
+              password: values.password,
+            })
+            .then((res) => {
+              dispatch(setAuth(res.data.token));
+              localStorage.token = res.data.token;
+            });
 
           setSubmitting(false);
         }}
@@ -71,12 +71,16 @@ export const AuthForm = () => {
             </div>
             <div className="register">
               Не имеете аккаунта?{" "}
-              <span onClick={() => setIsOpenRegistration(true)}>Зарегистрируйтесь</span>
+              <span onClick={() => setIsOpenRegistration(true)}>
+                Зарегистрируйтесь
+              </span>
             </div>
           </Form>
         )}
       </Formik>
-      {isOpenRegistration && <RegistrationForm />}
+      {isOpenRegistration && (
+        <RegistrationForm setIsOpenRegistration={setIsOpenRegistration()} />
+      )}
     </div>
   );
 };
