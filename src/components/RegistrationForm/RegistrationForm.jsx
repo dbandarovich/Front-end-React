@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Field, Form, Formik } from "formik";
 import { useDispatch } from "react-redux";
 import * as yup from "yup";
@@ -30,9 +30,23 @@ const FormSchema = yup.object().shape({
     .required("Обязательное поле"),
 });
 
-export const RegistrationForm = () => {
+export const RegistrationForm = ({ setIsOpenRegistration }) => {
   const dispatch = useDispatch();
   const [isChecked, setIsChecked] = useState(false);
+  const registrationRef = useRef();
+
+  useEffect(() => {
+    let handler = (e) => {
+      if (!registrationRef.current.contains(e.target))
+        setIsOpenRegistration(false);
+    };
+
+    document.addEventListener("mousedown", handler);
+
+    return () => {
+      document.removeEventListener("mousedown", handler);
+    };
+  });
 
   return (
     <div className={styles.wrapper}>
@@ -53,7 +67,7 @@ export const RegistrationForm = () => {
         }}
       >
         {({ isSubmitting, errors }) => (
-          <Form className={styles.form}>
+          <Form ref={registrationRef} className={styles.form}>
             <label>Электронная почта*</label>
             <Field type="email" name="email" placeholder="Введите вашу почту" />
             {errors.email && <p>{errors.email}</p>}

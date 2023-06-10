@@ -13,7 +13,7 @@ import { PasswordField } from "../PasswordField";
 
 export const AuthForm = () => {
   const dispatch = useDispatch();
-  const [isRegister, setIsRegister] = useState(false);
+  const [isOpenRegistration, setIsOpenRegistration] = useState(false);
 
   return (
     <div>
@@ -63,12 +63,16 @@ export const AuthForm = () => {
             </div>
             <div className="register">
               Не имеете аккаунта?{" "}
-              <span onClick={() => setIsRegister(true)}>Зарегистрируйтесь</span>
+              <span onClick={() => setIsOpenRegistration(true)}>
+                Зарегистрируйтесь
+              </span>
             </div>
           </Form>
         )}
       </Formik>
-      {isRegister && <RegistrationForm />}
+      {isOpenRegistration && (
+        <RegistrationForm setIsOpenRegistration={setIsOpenRegistration} />
+      )}
     </div>
   );
 };
