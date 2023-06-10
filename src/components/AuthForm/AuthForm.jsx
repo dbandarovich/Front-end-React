@@ -4,10 +4,12 @@ import { ErrorMessage, Field, Form, Formik } from "formik";
 import "./styles.scss";
 
 import { Button } from "../Button";
-import { Facebook, Google, ShowPassword } from "../../icons";
+import { Facebook, Google } from "../../icons";
+import { RegistrationForm } from "../RegistrationForm";
+import { PasswordField } from "../PasswordField";
 
 export const AuthForm = () => {
-  const [isPasswordShown, setIsPasswordShown] = useState(false);
+  const [isRegister, setIsRegister] = useState(false);
 
   return (
     <div>
@@ -36,21 +38,7 @@ export const AuthForm = () => {
             <label>Электронная почта*</label>
             <Field type="email" name="email" placeholder="Введите вашу почту" />
             <ErrorMessage name="email" component="p" />
-            <label className="label">Пароль*</label>
-            <div className="password-wrapper">
-              <Field
-                type={isPasswordShown ? "text" : "password"}
-                name="password"
-                placeholder="Введите ваш пароль"
-              />
-              <button
-                type="button"
-                onClick={() => setIsPasswordShown((prevState) => !prevState)}
-                className="view-hide"
-              >
-                <ShowPassword />
-              </button>
-            </div>
+            <PasswordField label="Пароль*" placeholder="Введите ваш пароль" />
             <ErrorMessage name="password" component="p" />
             <div className="forget-password">Забыли пароль?</div>
             <Button
@@ -72,11 +60,13 @@ export const AuthForm = () => {
               </button>
             </div>
             <div className="register">
-              Не имеете аккаунта? <span>Зарегистрируйтесь</span>
+              Не имеете аккаунта?{" "}
+              <span onClick={() => setIsRegister(true)}>Зарегистрируйтесь</span>
             </div>
           </Form>
         )}
       </Formik>
+      {isRegister && <RegistrationForm />}
     </div>
   );
 };

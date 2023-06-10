@@ -73,6 +73,19 @@ export const Sprite = () => {
           fill="#0F993E"
         />
       </symbol>
+      <symbol
+        id="arrow-down"
+        viewBox="0 0 22 12"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M1 1L11 11L21 1"
+          stroke="#263834"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </symbol>
     </svg>
   );
 };
