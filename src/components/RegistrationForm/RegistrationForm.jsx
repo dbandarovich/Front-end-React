@@ -1,5 +1,8 @@
 import React from "react";
 import { ErrorMessage, Field, Form, Formik } from "formik";
+import { useDispatch } from "react-redux";
+
+import { fetchRegistration } from "../../redux/reducers/RegistrationReducer";
 
 import styles from "./RegistrationForm.module.scss";
 
@@ -7,16 +10,17 @@ import { ArrowDown } from "../../icons";
 import { Button, PasswordField } from "../../components";
 
 export const RegistrationForm = () => {
+  const dispatch = useDispatch();
   return (
     <div className={styles.wrapper}>
       <Formik
         initialValues={{
           email: "",
-          name: "",
-          surname: "",
+          firstName: "",
+          lastName: "",
           currency: "(₽) RUB",
           password: "",
-          passwordCheck: "",
+          confirmPassword: "",
           userCheck: false,
         }}
         validate={(values) => {
@@ -31,10 +35,8 @@ export const RegistrationForm = () => {
           return errors;
         }}
         onSubmit={(values, { setSubmitting }) => {
-          setTimeout(() => {
-            alert(JSON.stringify(values, null, 2));
-            setSubmitting(false);
-          }, 400);
+          dispatch(fetchRegistration(values));
+          setSubmitting(false);
         }}
       >
         {({ isSubmitting }) => (
@@ -45,13 +47,17 @@ export const RegistrationForm = () => {
             <div className={styles.inputsWrapper}>
               <div>
                 <label>Имя</label>
-                <Field type="text" name="name" placeholder="Введите вашу имя" />
+                <Field
+                  type="text"
+                  name="firstName"
+                  placeholder="Введите вашу имя"
+                />
               </div>
               <div>
                 <label>Фамилия</label>
                 <Field
                   type="text"
-                  name="surname"
+                  name="lastName"
                   placeholder="Введите вашу фамилию"
                 />
               </div>
@@ -67,7 +73,7 @@ export const RegistrationForm = () => {
             <PasswordField label="Пароль" placeholder="Введите пароль" />
             <ErrorMessage name="password" component="p" />
             <PasswordField
-              name="passwordCheck"
+              name="confirmPassword"
               placeholder="Введите повторно пароль"
             />
             <label>Проверка</label>

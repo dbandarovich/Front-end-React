@@ -1,16 +1,18 @@
 import React, { useState } from "react";
 import { ErrorMessage, Field, Form, Formik } from "formik";
+import { useDispatch } from "react-redux";
 
 import "./styles.scss";
 
-import {Button} from "../Button";
-import {Facebook, Google, ShowPassword} from "../../icons";
-import {fetchAuth} from "../../redux/reducers/AuthReducer";
-import {useDispatch} from "react-redux";
+import { Button } from "../Button";
+import { Facebook, Google } from "../../icons";
+import { fetchAuth } from "../../redux/reducers/AuthReducer";
+
 import { RegistrationForm } from "../RegistrationForm";
 import { PasswordField } from "../PasswordField";
 
 export const AuthForm = () => {
+  const dispatch = useDispatch();
   const [isRegister, setIsRegister] = useState(false);
 
   return (
@@ -28,9 +30,9 @@ export const AuthForm = () => {
           }
           return errors;
         }}
-        onSubmit={(values, {setSubmitting}) => {
-          dispatch(fetchAuth(values))
-          setSubmitting(false)
+        onSubmit={(values, { setSubmitting }) => {
+          dispatch(fetchAuth(values));
+          setSubmitting(false);
         }}
       >
         {({ isSubmitting }) => (
@@ -64,7 +66,6 @@ export const AuthForm = () => {
               <span onClick={() => setIsRegister(true)}>Зарегистрируйтесь</span>
             </div>
           </Form>
-
         )}
       </Formik>
       {isRegister && <RegistrationForm />}
