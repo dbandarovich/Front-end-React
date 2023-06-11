@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { Outlet } from "react-router-dom";
-import { Sprite } from "../../components";
+import { Sprite } from "../../../components";
 import { useDispatch } from "react-redux";
-import { setAuth } from "../../redux/reducers/AuthReducer";
+import { setAuth } from "../../../redux/reducers/AuthReducer";
 
 export const Layout = () => {
   const dispatch = useDispatch();
