@@ -7,7 +7,7 @@ import {
 } from "react-router-dom";
 import { AuthPage } from "../pages/AuthPage/AuthPage";
 import { Layout } from "../pages/Layout";
-import {Operations} from "../pages/Operations/Operations";
+import { Operations } from "../pages/Operations/Operations";
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
