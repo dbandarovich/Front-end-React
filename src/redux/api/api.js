@@ -28,4 +28,7 @@ export const authApi = {
       confirmPassword: values.confirmPassword,
     });
   },
+  resetPassword(email) {
+    return apiInstance.post(`reset-password?email=${email}`);
+  },
 };
