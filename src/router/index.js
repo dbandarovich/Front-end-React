@@ -1,5 +1,5 @@
 import React from "react";
-import {createBrowserRouter, createRoutesFromElements, Navigate, Route,} from "react-router-dom";
+import {createBrowserRouter, createRoutesFromElements, Route,} from "react-router-dom";
 import {AuthPage} from "../pages/AuthPage/AuthPage";
 import {Layout} from "../pages/Layouts/LayoutAuth";
 import {Operations} from "../pages/Operations/Operations";
@@ -10,7 +10,7 @@ export const router = createBrowserRouter(
     createRoutesFromElements(
         <>
             <Route path="/" element={<Layout/>}>
-                <Route path="/" element={<Navigate to="/operations"/>}/>
+                <Route path="/" element={<AuthPage />}/>
                 <Route path="/login" element={<AuthPage/>}/>
             </Route>
             <Route path="/" element={<LayoutMain/>}>
