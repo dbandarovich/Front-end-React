@@ -7,12 +7,18 @@ import { setAuth } from "../../redux/reducers/AuthReducer";
 
 import "./styles.scss";
 
-import { Button, RegistrationForm, PasswordField } from "../../components";
+import {
+  Button,
+  RegistrationForm,
+  PasswordField,
+  ForgetPassword,
+} from "../../components";
 import { Facebook, Google } from "../../icons";
 
 export const AuthForm = () => {
   const dispatch = useDispatch();
   const [isOpenRegistration, setIsOpenRegistration] = useState(false);
+  const [isOpenForgetPassword, setIsOpenForgetPassword] = useState(false);
 
   return (
     <div>
@@ -50,7 +56,12 @@ export const AuthForm = () => {
             <ErrorMessage name="email" component="p" />
             <PasswordField label="Пароль*" placeholder="Введите ваш пароль" />
             <ErrorMessage name="password" component="p" />
-            <div className="forget-password">Забыли пароль?</div>
+            <div
+              onClick={() => setIsOpenForgetPassword(true)}
+              className="forget-password"
+            >
+              Забыли пароль?
+            </div>
             <Button
               className="main-form-button"
               isSubmitting={isSubmitting}
@@ -80,6 +91,9 @@ export const AuthForm = () => {
       </Formik>
       {isOpenRegistration && (
         <RegistrationForm setIsOpenRegistration={setIsOpenRegistration} />
+      )}
+      {isOpenForgetPassword && (
+        <ForgetPassword setIsOpenForgetPassword={setIsOpenForgetPassword} />
       )}
     </div>
   );

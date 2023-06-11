@@ -1,16 +1,15 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import { Field, Form, Formik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import * as yup from "yup";
-import { BsCheckLg } from "react-icons/bs";
 
 import { fetchRegistration } from "../../redux/reducers/RegistrationReducer";
+import { setAuth } from "../../redux/reducers/AuthReducer";
 
 import styles from "./RegistrationForm.module.scss";
 
 import { ArrowDown } from "../../icons";
-import { Button, PasswordField } from "../../components";
-import { setAuth } from "../../redux/reducers/AuthReducer";
+import { Button, PasswordField, UserCheckField } from "../../components";
 
 const FormSchema = yup.object().shape({
   password: yup
@@ -41,7 +40,7 @@ const FormSchema = yup.object().shape({
 
 export const RegistrationForm = ({ setIsOpenRegistration }) => {
   const dispatch = useDispatch();
-  const [isChecked, setIsChecked] = useState(false);
+
   const registrationRef = useRef();
   let status = useSelector((state) => state.registration.status);
   console.log(status);
@@ -122,17 +121,7 @@ export const RegistrationForm = ({ setIsOpenRegistration }) => {
               placeholder="Введите повторно пароль"
             />
             {errors.confirmPassword && <p>{errors.confirmPassword}</p>}
-            <label>Проверка</label>
-            <label className={styles.checkboxWrapper}>
-              <Field
-                onClick={() => setIsChecked((prevState) => !prevState)}
-                type="checkbox"
-                name="userCheck"
-              />{" "}
-              <span>Я не робот</span>
-              {isChecked && <BsCheckLg className={styles.checkIcon} />}
-            </label>
-
+            <UserCheckField />
             <Button
               className={styles.registrButton}
               isSubmitting={isSubmitting}
